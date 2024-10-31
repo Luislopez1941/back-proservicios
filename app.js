@@ -52,13 +52,11 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 // Conectar a la base de datos
 async function connectDB() {
     try {
-        await mongoose.connect('mongodb://localhost:27017/ecommerce-01', {
+        await mongoose.connect('mongodb://mongo:ZSsnFdLTFixaAsMYLDJRTyAzmukkqIRh@autorack.proxy.rlwy.net:57442', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
         console.log('Server running and database connected');
-        
-        // Iniciar el servidor
         app.listen(port, function () {
             console.log(`Server running on http://localhost:${port}`);
         });
