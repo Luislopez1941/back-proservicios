@@ -1,7 +1,7 @@
 'use strict';
 
-let Customer = require('../models//Customer');
-let Users = require('../models/Users');
+let { Customer } = require('../models//Customer');
+let { User } = require('../models/User');
 let bcrypt = require('bcrypt')
 let jwt = require('../helpers/jwt')
 
@@ -10,14 +10,16 @@ const general_login = async function (req, res) {
     let customers_arr = []
     let users_arr = []
 
-    users_arr = await Users.find({ email: data.email })
-    customers_arr = await Customer.find({ email: data.email })
-    if (users_arr.length >= 1 || customers_arr.length >= 1) {
+    users_arr = await User.findOne({ where: { email: data.email } });
+    customers_arr = await Customer.findOne({ where: { email: data.email } });
+
+
+    if (users_arr || customers_arr) {
         let user = []
-        if(users_arr.length >= 1) {
-            user = users_arr[0]
+        if(users_arr) {
+            user = users_arr
         } else {
-            user = customers_arr[0]
+            user = customers_arr
         }
 
         const match = await bcrypt.compare(data.password, user.password);
@@ -29,7 +31,7 @@ const general_login = async function (req, res) {
             return res.status(200).send({ status: 'warning', message: 'La contraseña no coincide' });
         }
     } else {
-        res.status(200).send({ status: 'warning', message: 'El correo no esta registrado' })
+        res.status(200).send({ status: 'warning', message: 'El correo no esta registrado'})
     }
 }
 

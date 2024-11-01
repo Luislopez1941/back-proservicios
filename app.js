@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 const openapiSpecification = require('./swagger/swagger.js'); // Cambia esto según tu estructura de carpetas
-const mongoose = require('mongoose');
+const { connectDB, sequelize } = require('./db/dba.js');
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -32,14 +32,14 @@ app.use((req, res, next) => {
 
 // Rutas
 const customerRouter = require('./routes/Customer.js');
-const administratorRouter = require('./routes/Administrator.js');
-const usersrRouter = require('./routes/Users.js');
+// const administratorRouter = require('./routes/Administrator.js');
+// const usersrRouter = require('./routes/Users.js');
 const GeneralLoginRouter = require('./routes/GeneralLogin.js');
 const consultsGeneral = require('./routes/ConsultsGeneral.js');
 
 app.use('/api', customerRouter);
-app.use('/api', administratorRouter);
-app.use('/api', usersrRouter);
+// app.use('/api', administratorRouter);
+// app.use('/api', usersrRouter);
 app.use('/api', GeneralLoginRouter);
 app.use('/api', consultsGeneral);
 
@@ -49,20 +49,17 @@ app.use('/api', consultsGeneral);
 // Swagger
 app.use('/', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
 
-// Conectar a la base de datos
-async function connectDB() {
+const startServer = async () => {
     try {
-        await mongoose.connect('mongodb://mongo:ZSsnFdLTFixaAsMYLDJRTyAzmukkqIRh@autorack.proxy.rlwy.net:57442', {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
+        await connectDB(); // Conectar a la base de datos
+        await sequelize.sync(); // Sincroniza los modelos
+        console.log('Models synchronized successfully');
+        app.listen(port, () => { // Usar el puerto definido
+            console.log(`Server is running on port ${port}`);
         });
-        console.log('Server running and database connected');
-        app.listen(port, function () {
-            console.log(`Server running on http://localhost:${port}`);
-        });
-    } catch (err) {
-        console.error('Error connecting to MongoDB', err);
+    } catch (error) {
+        console.error('Error syncing models:', error);
     }
-}
+};
 
-connectDB();
+startServer();

@@ -1,17 +1,50 @@
 'use strict';
 
-let mongoose = require('mongoose');
-let Schema = mongoose.Schema;
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../db/dba'); // Asegúrate de que la ruta a tu configuración de Sequelize sea correcta
 
-const SchemaAdministrator = Schema({
-    names: { type: String, required: true },
-    surnames: { type: String, required: true },
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-    profile: { type: String, default: 'profil.png', required: false },
-    phone: { type: String, required: false },
-    rol: { type: String, default: 'administrator', required: false },
-    dni: { type: String, required: false },
+class Administrator extends Model {}
+
+Administrator.init({
+    names: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    surnames: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true, // Asegura que el correo electrónico sea único
+    },
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    profile: {
+        type: DataTypes.STRING,
+        defaultValue: 'profil.png',
+        allowNull: true,
+    },
+    phone: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+    rol: {
+        type: DataTypes.STRING,
+        defaultValue: 'administrator',
+        allowNull: true,
+    },
+    dni: {
+        type: DataTypes.STRING,
+        allowNull: true,
+    },
+}, {
+    sequelize,
+    modelName: 'Administrator',
+    tableName: 'administrators', // Especifica el nombre de la tabla en la base de datos
 });
 
-module.exports = mongoose.model('Administrator ', SchemaAdministrator);
+module.exports = Administrator;

@@ -1,16 +1,14 @@
 'use strict';
 
-let Users = require('../models/Users');
+let Users = require('../models/User');
 let Customer = require('../models/Customer');
 let bcrypt = require('bcrypt')
 
 async function users_registration(req, res) {
     let data = req.body
-    let users_arr = []
-    let customer_arr = []
 
-    users_arr = await Users.find({email: data.email});
-    customer_arr = await Customer.find({email: data.email});
+    let users_arr = await User.findOne({ where: { email: data.email } });
+    let customer_arr = await Customer.findOne({ where: { email: data.email } });
 
     if(users_arr.length >= 1 || customer_arr.length >= 1) {
         res.status(200).send({status: 'warning', message: 'El correo ya se encuantra registrado', data: undefined})

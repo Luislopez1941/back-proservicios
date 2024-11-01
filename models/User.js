@@ -1,9 +1,10 @@
+// models/User.js
 const { Sequelize, DataTypes } = require('sequelize');
 const { sequelize } = require('../db/dba'); // Asegúrate de que la ruta sea correcta
 
-class Customer  extends Sequelize.Model {}
+class User extends Sequelize.Model {}
 
-Customer .init({
+User.init({
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -66,14 +67,14 @@ Customer .init({
     },
 }, {
     sequelize,
-    modelName: 'Customer',
-    tableName: 'customers', // Asegúrate de que este sea el nombre correcto de tu tabla
+    modelName: 'User',
+    tableName: 'users',
     timestamps: false,
 });
 
 // Sincronizar el modelo con la base de datos
 const syncModels = async () => {
-    await Customer.sync();
+    await User.sync();
 };
 
-module.exports = { Customer, syncModels };
+module.exports = { User, syncModels };
