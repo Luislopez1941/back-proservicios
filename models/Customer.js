@@ -38,10 +38,9 @@ Customer .init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    profile: {
-        type: DataTypes.STRING(255),
-        defaultValue: 'profil.png',
-        allowNull: true,
+    profilePhoto: {
+        type: DataTypes.TEXT,
+        allowNull: true, // O false dependiendo de si este campo puede ser nulo
     },
     phone: {
         type: DataTypes.STRING(255),
@@ -51,6 +50,14 @@ Customer .init({
         type: DataTypes.STRING(50),
         allowNull: true,
     },
+    skills: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },
+    starts: {
+        type: DataTypes.JSON,
+        allowNull: true,
+    },   
     birthdate: {
         type: DataTypes.DATE,
         allowNull: true,
@@ -61,8 +68,38 @@ Customer .init({
     },
     type_user: {
         type: DataTypes.STRING(50),
-        defaultValue: 'User',
+        defaultValue: 'Customer',
         allowNull: true,
+    },
+    id_state: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'states',  // Nombre del modelo al que se relaciona
+            key: 'id',      // Clave primaria del modelo de referencia
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+    },
+    id_city: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'cities',  // Nombre del modelo al que se relaciona
+            key: 'id',      // Clave primaria del modelo de referencia
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
+    },
+    id_municipality: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'municipalities',  // Nombre del modelo al que se relaciona
+            key: 'id',      // Clave primaria del modelo de referencia
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
     },
 }, {
     sequelize,

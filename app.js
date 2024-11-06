@@ -36,12 +36,14 @@ const customerRouter = require('./routes/Customer.js');
 // const usersrRouter = require('./routes/Users.js');
 const GeneralLoginRouter = require('./routes/GeneralLogin.js');
 const consultsGeneral = require('./routes/ConsultsGeneral.js');
+const localitiesRouter = require('./routes/Localities.js');
 
 app.use('/api', customerRouter);
 // app.use('/api', administratorRouter);
 // app.use('/api', usersrRouter);
 app.use('/api', GeneralLoginRouter);
 app.use('/api', consultsGeneral);
+app.use('/api', localitiesRouter);
 
 // app.get('/', (req, res) => {
 //     res.redirect('/api-docs');

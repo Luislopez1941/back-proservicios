@@ -39,7 +39,7 @@ User.init({
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    profile: {
+    profilePhoto: {
         type: DataTypes.STRING(255),
         defaultValue: 'profil.png',
         allowNull: true,

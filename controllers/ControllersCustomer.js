@@ -27,6 +27,8 @@ const customer_login = async function(req, res) {
 const customer_registration = async function(req, res) {
     let data = req.body
 
+    console.log(data)
+
     let customer_arr = await Customer.findOne({ where: { email: data.email } });
 
     if(customer_arr) {
@@ -46,40 +48,7 @@ const customer_registration = async function(req, res) {
     }
 }
 
-// const list_customers = async function(req, res) {
-//     if(req.user) {
-//         if(req.user.rol == 'administrator') {
-//             let data = req.params
-//             if(data.type ==  null || data.type == 'null') {
-//                 const section = data.section; // Página actual, por defecto es 1
-//                 const limit = parseInt(req.query.limit) || 5;
-            
-//                 const startIndex = (section - 1) * limit; // Índice de inicio
-//                 const total = await Customer.countDocuments();
-        
-//                 const customers = await Customer.find()
-//                 .skip(startIndex)
-//                 .limit(limit);
-//                 res.status(200).send({data: customers,totalCustomers: total, currentPagination: section, totalSections: Math.ceil(total / limit)});
-//             } else {
-//                 if(data.type == 'names') {
-//                     let reg = await Customer.find({names: new RegExp(data.filter, 'i')});
-//                     return res.status(200).send({data: reg})
-                    
-//                 } else if(data.type == 'email') {
-//                     let reg = await Customer.find({email: new RegExp(data.filter, 'i')});
-//                     return res.status(200).send({data: reg})
-//                 }
-            
-//             }   
-//         } else {
-//             console.log('Issues with the role')
-//             return res.status(500).send({message: 'NoAccess'})
-//         }
-//     } else {
-//         return res.status(500).send({message: 'NoAccess'})
-//     }
-// }
+
 
 
 
